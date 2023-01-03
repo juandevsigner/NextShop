@@ -1,0 +1,52 @@
+import NextLink from "next/link";
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  Badge,
+} from "@mui/material";
+import { SearchOutlined, ShoppingCartOutlined } from "@mui/icons-material";
+
+export const Navbar = () => {
+  return (
+    <AppBar>
+      <Toolbar>
+        <NextLink className="Navbar" href="/" passHref>
+          <Typography variant="h6">Next |</Typography>
+          <Typography sx={{ ml: 0.5 }} variant="h6">
+            Shop
+          </Typography>
+        </NextLink>
+        <Box sx={{ flex: 1 }} />
+
+        <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          <NextLink legacyBehavior href={`/category/men`} passHref>
+            <Button>Men</Button>
+          </NextLink>
+          <NextLink legacyBehavior href={`/category/women`} passHref>
+            <Button>Women</Button>
+          </NextLink>
+          <NextLink legacyBehavior href={`/category/kids`} passHref>
+            <Button>Kids</Button>
+          </NextLink>
+        </Box>
+
+        <Box sx={{ flex: 1 }} />
+        <IconButton>
+          <SearchOutlined />
+        </IconButton>
+        <NextLink legacyBehavior href="/cart" passHref>
+          <IconButton>
+            <Badge badgeContent={2} color="secondary">
+              <ShoppingCartOutlined />
+            </Badge>
+          </IconButton>
+        </NextLink>
+        <Button>Menu</Button>
+      </Toolbar>
+    </AppBar>
+  );
+};

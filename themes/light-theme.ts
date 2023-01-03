@@ -55,8 +55,11 @@ export const lightTheme = createTheme({
       },
       styleOverrides: {
         root: {
+          backgroundColor: "white",
+          color: "black",
           textTransform: "none",
           boxShadow: "none",
+          margin: "0px 3px",
           borderRadius: 10,
           ":hover": {
             backgroundColor: "rgba(0,0,0,0.05)",
