@@ -1,3 +1,4 @@
+@import "react-slideshow-image/dist/styles.css";
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -45,4 +46,9 @@ a {
   display: flex;
   align-items: center;
   color: black;
+}
+
+.default-nav {
+  background-color: #c7c7c744 !important;
+  margin: 0 10px !important;
 }
