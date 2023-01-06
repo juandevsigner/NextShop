@@ -1,4 +1,5 @@
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import {
   AppBar,
   Toolbar,
@@ -11,6 +12,8 @@ import {
 import { SearchOutlined, ShoppingCartOutlined } from "@mui/icons-material";
 
 export const Navbar = () => {
+  const { pathname } = useRouter();
+
   return (
     <AppBar>
       <Toolbar>
@@ -24,13 +27,19 @@ export const Navbar = () => {
 
         <Box sx={{ display: { xs: "none", sm: "block" } }}>
           <NextLink legacyBehavior href={`/category/men`} passHref>
-            <Button>Men</Button>
+            <Button color={pathname === "/category/men" ? "primary" : "info"}>
+              Men
+            </Button>
           </NextLink>
           <NextLink legacyBehavior href={`/category/women`} passHref>
-            <Button>Women</Button>
+            <Button color={pathname === "/category/women" ? "primary" : "info"}>
+              Women
+            </Button>
           </NextLink>
           <NextLink legacyBehavior href={`/category/kids`} passHref>
-            <Button>Kids</Button>
+            <Button color={pathname === "/category/kids" ? "primary" : "info"}>
+              Kids
+            </Button>
           </NextLink>
         </Box>
 
