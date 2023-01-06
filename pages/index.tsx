@@ -3,8 +3,13 @@ import { ShopLayout } from "../components/layout";
 import { Typography } from "@mui/material";
 import { initialData } from "../database/products";
 import { ProductList } from "../components/products";
+import { useProducts } from "../hooks";
+import { IProduct } from "../interfaces/products";
+import { FullScreenLoading } from "../components/ui/FullScreenLoading";
 
 const Home: NextPage = () => {
+  const { isError, isLoading, products } = useProducts("/products");
+
   return (
     <ShopLayout
       title={"Next-Shop - Home"}
@@ -16,7 +21,7 @@ const Home: NextPage = () => {
       <Typography variant="h2" sx={{ mb: 1 }} component="h2" color="initial">
         All Products
       </Typography>
-      <ProductList products={initialData.products as any} />
+      {isLoading ? <FullScreenLoading /> : <ProductList products={products} />}
     </ShopLayout>
   );
 };
