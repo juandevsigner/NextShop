@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db, SHOP_CONSTANTS } from "../../../database/intex";
+import { db } from "../../../database/intex";
 import { IProduct } from "../../../interfaces";
 import { Product } from "../../../models";
 
