@@ -28,13 +28,13 @@ export const CartList: FC<Props> = ({ edit = false }) => {
       {productsInCart.map((product) => (
         <Grid container spacing={2} key={product.slug} sx={{ mb: 1 }}>
           <Grid item xs={3}>
-            <NextLink href="/product/slug" passHref>
+            <NextLink href="/product/slug" legacyBehavior passHref>
               <Link>
                 <CardActionArea>
                   <CardMedia
                     sx={{ borderRadius: "5px" }}
                     component="img"
-                    image={`products/${product.images[0]}`}
+                    image={`/products/${product.images[0]}`}
                   />
                 </CardActionArea>
               </Link>

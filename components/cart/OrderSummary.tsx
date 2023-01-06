@@ -26,7 +26,7 @@ export const OrderSummary = () => {
       </Grid>
       <Divider sx={{ my: 1, width: "100%" }} />
       <Grid item xs={6}>
-        <Typography variant="subtitle1">Total: (19%)</Typography>
+        <Typography variant="subtitle1">Total:</Typography>
       </Grid>
       <Grid item display="flex" justifyContent="end" xs={6}>
         <Typography variant="subtitle1">
