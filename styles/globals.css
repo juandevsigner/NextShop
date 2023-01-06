@@ -52,3 +52,6 @@ a {
   background-color: #c7c7c744 !important;
   margin: 0 10px !important;
 }
+.MuiInputBase-input {
+  background-color: white;
+}
