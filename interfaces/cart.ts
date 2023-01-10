@@ -2,9 +2,9 @@ import { ISizes } from "./";
 
 export interface ICartProduct {
   _id: string;
-  images: string;
+  image: string;
   price: number;
-  sizes: ISizes;
+  sizes?: ISizes;
   slug: string;
   title: string;
   gender: "men" | "women" | "kid" | "unisex";

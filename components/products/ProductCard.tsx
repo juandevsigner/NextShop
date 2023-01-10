@@ -4,6 +4,7 @@ import {
   Card,
   CardActionArea,
   CardMedia,
+  Chip,
   Grid,
   Link,
   Typography,
@@ -49,6 +50,18 @@ export const ProductCard: FC<Props> = ({ product }) => {
                 alt={product.title}
                 onLoad={() => setIsImageLoaded(true)}
               />
+              {product.inStock === 0 && (
+                <Chip
+                  color="primary"
+                  label="Dont Have Stock"
+                  sx={{
+                    position: "absolute",
+                    zIndex: 99,
+                    top: "10px",
+                    left: "10px",
+                  }}
+                />
+              )}
             </CardActionArea>
           </Link>
         </NextLink>

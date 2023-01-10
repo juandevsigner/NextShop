@@ -1,10 +1,10 @@
-import React, { FC } from "react";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import React, { FC, useState } from "react";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { Button, Chip, Grid, Typography, Box } from "@mui/material";
 import { ShopLayout } from "../../components/layout";
 import { ProductSlideshow, SizeSelector } from "../../components/products";
 import { ItemCounter } from "../../components/ui/ItemCounter";
-import { IProduct } from "../../interfaces";
+import { ICartProduct, IProduct, ISizes } from "../../interfaces";
 import { dbProducts } from "../../database/intex";
 
 interface Props {
@@ -12,6 +12,35 @@ interface Props {
 }
 
 const ProductPage: FC<Props> = ({ product }) => {
+  const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
+    _id: product._id,
+    image: product.images[0],
+    price: product.price,
+    sizes: undefined,
+    slug: product.slug,
+    title: product.title,
+    gender: product.gender,
+    quantity: 1,
+  });
+
+  const selectedSize = (size: ISizes) => {
+    setTempCartProduct((currenProducts) => ({
+      ...currenProducts,
+      sizes: size,
+    }));
+  };
+
+  const onAddProduct = () => {
+    console.log({ tempCartProduct });
+  };
+
+  const onUpdateQuantity = (quantity: number) => {
+    setTempCartProduct((currenProducts) => ({
+      ...currenProducts,
+      quantity,
+    }));
+  };
+
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
       <Grid container spacing={3}>
@@ -30,13 +59,29 @@ const ProductPage: FC<Props> = ({ product }) => {
               <Typography variant="subtitle1" component="h2">
                 Quantity
               </Typography>
-              <ItemCounter />
-              <SizeSelector sizes={product.sizes} />
+              <ItemCounter
+                currentValue={tempCartProduct.quantity}
+                updateQuantity={onUpdateQuantity}
+                maxValue={product.inStock > 10 ? 10 : product.inStock}
+              />
+              <SizeSelector
+                onSelectedSize={selectedSize}
+                selectedSize={tempCartProduct.sizes}
+                sizes={product.sizes}
+              />
             </Box>
-            <Button color="secondary" className="circular-btn">
-              Add To Cart
-            </Button>
-            {/* <Chip label="Dont have stock" color="error" variant="outlined" /> */}
+            {product.inStock > 0 ? (
+              <Button
+                onClick={onAddProduct}
+                color="secondary"
+                className="circular-btn"
+              >
+                {tempCartProduct.sizes ? "Add To Cart" : "Choice a size"}
+              </Button>
+            ) : (
+              <Chip label="Dont have stock" color="error" variant="outlined" />
+            )}
+
             <Box sx={{ mt: 3 }}>
               <Typography fontWeight={700} variant="subtitle2">
                 Description:
@@ -49,29 +94,6 @@ const ProductPage: FC<Props> = ({ product }) => {
     </ShopLayout>
   );
 };
-
-//THIS IS SERVER SIDE PROPS
-// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-//   console.log(params);
-
-//   const { slug = "" } = params as { slug: string };
-//   const product = await dbProducts.getProductBbySlug(slug);
-
-//   if (!product) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   return {
-//     props: {
-//       product,
-//     },
-//   };
-// };
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
   const productSlugs = await dbProducts.getAllProductsSlugs();
