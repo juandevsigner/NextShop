@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db, seedDataba } from "../../database/intex";
-import { Product } from "../../models";
+import { db, seedDatabase } from "../../database";
+import { Product, User } from "../../models";
 
 type Data = {
   message: string;
@@ -14,8 +14,14 @@ export default async function handler(
     return res.status(401).json({ message: "Dont have access to Api" });
   }
   await db.connect();
+
+  await User.deleteMany();
+  await User.insertMany(seedDatabase.initialData.users);
+
   await Product.deleteMany();
-  await Product.insertMany(seedDataba.initialData.products);
+  await Product.insertMany(seedDatabase.initialData.products);
+  await db.disconnect();
+
   await db.disconnect();
   res.status(200).json({ message: "succes process" });
 }

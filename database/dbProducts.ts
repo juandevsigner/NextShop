@@ -1,6 +1,6 @@
 import { IProduct } from "../interfaces";
 import { Product } from "../models";
-import { db } from "./intex";
+import { db } from ".";
 
 export const getProductBbySlug = async (slug: string) => {
   await db.connect();

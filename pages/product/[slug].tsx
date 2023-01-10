@@ -7,7 +7,7 @@ import { ShopLayout } from "../../components/layout";
 import { ProductSlideshow, SizeSelector } from "../../components/products";
 import { ItemCounter } from "../../components/ui/ItemCounter";
 import { ICartProduct, IProduct, ISizes } from "../../interfaces";
-import { dbProducts } from "../../database/intex";
+import { dbProducts } from "../../database";
 
 interface Props {
   product: IProduct;

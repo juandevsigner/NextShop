@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
 import { ShopLayout } from "../components/layout";
 import { Typography } from "@mui/material";
-import { initialData } from "../database/products";
+
 import { ProductList } from "../components/products";
 import { useProducts } from "../hooks";
-import { IProduct } from "../interfaces/products";
+
 import { FullScreenLoading } from "../components/ui/FullScreenLoading";
 
 const Home: NextPage = () => {

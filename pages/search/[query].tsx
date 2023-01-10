@@ -3,7 +3,7 @@ import { ShopLayout } from "../../components/layout";
 import { Box, Typography } from "@mui/material";
 import { ProductList } from "../../components/products";
 
-import { dbProducts } from "../../database/intex";
+import { dbProducts } from "../../database";
 import { IProduct } from "../../interfaces/products";
 
 interface Props {
