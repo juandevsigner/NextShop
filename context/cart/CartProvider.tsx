@@ -8,7 +8,8 @@ export interface CartState {
 }
 
 const CART_INITIAL_STATE: CartState = {
-  cart: Cookie.get("cart") ? JSON.parse(Cookie.get("cart")!) : [],
+  // cart: Cookie.get("cart") ? JSON.parse(Cookie.get("cart")!) : [],
+  cart: [],
 };
 
 interface Props {
@@ -72,8 +73,29 @@ export const CartProvider: FC<Props> = ({ children }) => {
     });
   };
 
+  const updateCartQuantity = (product: ICartProduct) => {
+    dispatch({
+      type: "[Cart] - Change products quantity",
+      payload: product,
+    });
+  };
+
+  const removeCartProduct = (product: ICartProduct) => {
+    dispatch({
+      type: "[Cart] - Remove products in cart",
+      payload: product,
+    });
+  };
+
   return (
-    <CartContext.Provider value={{ ...state, addProductToCart }}>
+    <CartContext.Provider
+      value={{
+        ...state,
+        addProductToCart,
+        updateCartQuantity,
+        removeCartProduct,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

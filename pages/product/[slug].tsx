@@ -37,7 +37,7 @@ const ProductPage: FC<Props> = ({ product }) => {
   const onAddProduct = () => {
     if (!tempCartProduct.sizes) return;
     addProductToCart(tempCartProduct);
-    //router.push("/cart");
+    router.push("/cart");
   };
 
   const onUpdateQuantity = (quantity: number) => {
