@@ -1,6 +1,8 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useContext } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
 import { Button, Chip, Grid, Typography, Box } from "@mui/material";
+import { CartContext } from "../../context/cart/CartContext";
 import { ShopLayout } from "../../components/layout";
 import { ProductSlideshow, SizeSelector } from "../../components/products";
 import { ItemCounter } from "../../components/ui/ItemCounter";
@@ -12,6 +14,8 @@ interface Props {
 }
 
 const ProductPage: FC<Props> = ({ product }) => {
+  const { addProductToCart } = useContext(CartContext);
+  const router = useRouter();
   const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
     _id: product._id,
     image: product.images[0],
@@ -31,7 +35,9 @@ const ProductPage: FC<Props> = ({ product }) => {
   };
 
   const onAddProduct = () => {
-    console.log({ tempCartProduct });
+    if (!tempCartProduct.sizes) return;
+    addProductToCart(tempCartProduct);
+    //router.push("/cart");
   };
 
   const onUpdateQuantity = (quantity: number) => {
