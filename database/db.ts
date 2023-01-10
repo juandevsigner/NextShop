@@ -42,3 +42,12 @@ export const disconnect = async () => {
 
   console.log("Offline MongoDB");
 };
+export function save(
+  user:
+    | (mongoose.Document<unknown, any, import("../interfaces").IUser> &
+        import("../interfaces").IUser &
+        Required<{ _id: string }>)
+    | null
+) {
+  throw new Error("Function not implemented.");
+}
