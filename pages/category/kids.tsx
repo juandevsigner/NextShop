@@ -17,7 +17,7 @@ const KidPage: NextPage = () => {
         Shop
       </Typography>
       <Typography variant="h2" sx={{ mb: 1 }} component="h2" color="initial">
-        Men Products
+        Kids Products
       </Typography>
       {isLoading ? <FullScreenLoading /> : <ProductList products={products} />}
     </ShopLayout>

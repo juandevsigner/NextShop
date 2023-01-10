@@ -27,7 +27,6 @@ const getProductSlug = async (
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) => {
-  console.log(req.query);
   const { slug } = req.query;
 
   await db.connect();
