@@ -8,19 +8,19 @@ import {
   Link,
   Chip,
 } from "@mui/material";
-import { AuthLayout } from "../../components/layout";
 import NextLink from "next/link";
 import { useForm } from "react-hook-form";
+import { AuthLayout } from "../../components/layout";
 import { validations } from "../../utils";
 import nextshopApi from "../../api/nextshopApi";
 import ErrorOutline from "@mui/icons-material/ErrorOutline";
 
-const LoginPage = () => {
-  type FormData = {
-    email: string;
-    password: string;
-  };
+type FormData = {
+  email: string;
+  password: string;
+};
 
+const LoginPage = () => {
   const {
     register,
     handleSubmit,
@@ -64,7 +64,7 @@ const LoginPage = () => {
                   display: showError ? "flex" : "none",
                 }}
                 icon={<ErrorOutline />}
-                label="User doest not exist"
+                label="User already exist"
                 className="fadeIn"
               />
             </Grid>
@@ -91,10 +91,6 @@ const LoginPage = () => {
                 fullWidth
                 {...register("password", {
                   required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters",
-                  },
                 })}
                 error={!!errors.password}
                 helperText={errors.password?.message}
