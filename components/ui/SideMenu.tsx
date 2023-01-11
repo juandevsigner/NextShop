@@ -76,7 +76,9 @@ export const SideMenu = () => {
                 <ListItemIcon>
                   <AccountCircleOutlined />
                 </ListItemIcon>
-                <ListItemText primary={"Profile"} />
+                <ListItemText
+                  primary={user ? user.name.toUpperCase() : "Profile"}
+                />
               </ListItem>
 
               <ListItem button>
