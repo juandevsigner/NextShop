@@ -6,6 +6,7 @@ export const signToken = (_id: string, email: string) => {
       "Dont have a secret seed JWT, please check your environment"
     );
   }
+
   return jwt.sign(
     {
       _id,
@@ -23,6 +24,9 @@ export const isValidToken = (token: string): Promise<string> => {
     throw new Error(
       "Dont have a secret seed JWT, please check your environment"
     );
+  }
+  if (token.length <= 10) {
+    return Promise.reject("Token not valid");
   }
   return new Promise((resolve, reject) => {
     try {

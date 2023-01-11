@@ -1,8 +1,9 @@
+import { GetServerSideProps } from "next";
+
 import {
   Button,
   FormControl,
   Grid,
-  InputLabel,
   MenuItem,
   Select,
   TextField,
@@ -11,6 +12,8 @@ import {
 import { Box } from "@mui/system";
 import React from "react";
 import { ShopLayout } from "../../components/layout";
+import { isValidToken } from "../../utils/jwt";
+import { jwt } from "../../utils";
 
 const AddressPage = () => {
   return (
@@ -58,5 +61,31 @@ const AddressPage = () => {
     </ShopLayout>
   );
 };
+
+// export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+//   const { token = "" } = req.cookies;
+
+//   let isValidToken = false;
+
+//   try {
+//     await jwt.isValidToken(token);
+//     isValidToken = true;
+//   } catch (error) {
+//     isValidToken = false;
+//   }
+
+//   if (!isValidToken) {
+//     return {
+//       redirect: {
+//         destination: "/auth/login?p=/checkout/address",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   return {
+//     props: {},
+//   };
+// };
 
 export default AddressPage;
