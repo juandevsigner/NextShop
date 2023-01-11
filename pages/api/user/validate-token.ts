@@ -32,7 +32,7 @@ export default function handler(
 }
 
 const checkJWT = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const { token = "" } = req.headers;
+  const { token = "" } = req.cookies;
 
   let userId = "";
 
