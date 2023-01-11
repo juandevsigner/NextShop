@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Button,
@@ -12,8 +12,9 @@ import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 import { AuthLayout } from "../../components/layout";
 import { validations } from "../../utils";
-import nextshopApi from "../../api/nextshopApi";
 import ErrorOutline from "@mui/icons-material/ErrorOutline";
+import { AuthContext } from "../../context";
+import { useRouter } from "next/router";
 
 type FormData = {
   email: string;
@@ -21,6 +22,8 @@ type FormData = {
 };
 
 const LoginPage = () => {
+  const router = useRouter();
+  const { loginUser } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -31,19 +34,16 @@ const LoginPage = () => {
 
   const onLoginUser = async ({ email, password }: FormData) => {
     setShowError(false);
-    try {
-      const { data } = await nextshopApi.post("/user/login", {
-        email,
-        password,
-      });
-      console.log(data);
-    } catch (error) {
-      console.error(error);
+    const isValidLogin = await loginUser(email, password);
+    if (!isValidLogin) {
       setShowError(true);
       setTimeout(() => {
         setShowError(false);
       }, 3000);
+      return;
     }
+
+    router.replace("/");
   };
 
   return (
