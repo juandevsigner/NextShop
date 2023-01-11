@@ -3,6 +3,7 @@ import { IUser } from "../../interfaces";
 
 interface ContextProps {
   isLoggedIn: boolean;
+  logout: () => void;
   user?: IUser;
 
   //Methods

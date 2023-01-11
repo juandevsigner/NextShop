@@ -4,6 +4,8 @@ import { nextshopApi } from "../../api";
 import { IUser } from "../../interfaces";
 import { AuthContext, authReducer } from "./";
 import axios from "axios";
+import { createReturn } from "typescript";
+import { useRouter } from "next/router";
 
 export interface AuthState {
   isLoggedIn: boolean;
@@ -20,6 +22,7 @@ interface Props {
 }
 
 export const AuthProvider: FC<Props> = ({ children }) => {
+  const router = useRouter();
   const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE);
 
   useEffect(() => {
@@ -27,6 +30,8 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   }, []);
 
   const checkToken = async () => {
+    if (!Cookies.get("token")) return;
+
     try {
       const { data } = await nextshopApi("/user/validate-token");
       const { token, user } = data;
@@ -87,8 +92,14 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     }
   };
 
+  const logout = () => {
+    Cookies.remove("token");
+    Cookies.remove("cart");
+    router.reload();
+  };
+
   return (
-    <AuthContext.Provider value={{ ...state, loginUser, registerUser }}>
+    <AuthContext.Provider value={{ ...state, loginUser, registerUser, logout }}>
       {children}
     </AuthContext.Provider>
   );
