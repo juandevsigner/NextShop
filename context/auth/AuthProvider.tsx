@@ -3,6 +3,7 @@ import { FC, useReducer } from "react";
 import { nextshopApi } from "../../api";
 import { IUser } from "../../interfaces";
 import { AuthContext, authReducer } from "./";
+import axios from "axios";
 
 export interface AuthState {
   isLoggedIn: boolean;
@@ -39,8 +40,40 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       return false;
     }
   };
+
+  const registerUser = async (
+    name: string,
+    email: string,
+    password: string
+  ): Promise<{ hasError: boolean; message?: string }> => {
+    try {
+      const { data } = await nextshopApi.post("/user/register", {
+        email,
+        password,
+        name,
+      });
+      const { token, user } = data;
+      Cookies.set("token", token);
+      dispatch({ type: "[Auth] - Login", payload: user });
+      return {
+        hasError: false,
+      };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return {
+          hasError: true,
+          message: error.response?.data.message,
+        };
+      }
+      return {
+        hasError: true,
+        message: "Error in registration",
+      };
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ ...state, loginUser }}>
+    <AuthContext.Provider value={{ ...state, loginUser, registerUser }}>
       {children}
     </AuthContext.Provider>
   );

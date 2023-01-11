@@ -64,7 +64,7 @@ const LoginPage = () => {
                   display: showError ? "flex" : "none",
                 }}
                 icon={<ErrorOutline />}
-                label="User already exist"
+                label="The credentials are not valid"
                 className="fadeIn"
               />
             </Grid>
