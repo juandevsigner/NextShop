@@ -1,3 +1,8 @@
+import React, { useContext, useState } from "react";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import NextLink from "next/link";
+import { signIn, getSession } from "next-auth/react";
 import {
   Box,
   Button,
@@ -7,13 +12,9 @@ import {
   Link,
   Chip,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
-import { useRouter } from "next/router";
-import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 import { AuthLayout } from "../../components/layout";
 import { validations } from "../../utils";
-import nextshopApi from "../../api/nextshopApi";
 import { ErrorOutline } from "@mui/icons-material";
 import { AuthContext } from "../../context";
 
@@ -47,8 +48,10 @@ const RegisterPage = () => {
       }, 3000);
       return;
     }
-    const destination = router.query.p?.toString() || "/";
-    router.replace(destination);
+
+    await signIn("credentials", { email, password });
+    // const destination = router.query.p?.toString() || "/";
+    // router.replace(destination);
   };
 
   return (
@@ -144,6 +147,26 @@ const RegisterPage = () => {
       </form>
     </AuthLayout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query,
+}) => {
+  const session = await getSession({ req });
+  const { p = "/" } = query;
+  if (session) {
+    return {
+      redirect: {
+        destination: p.toString(),
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default RegisterPage;

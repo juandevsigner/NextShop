@@ -1,4 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { GetServerSideProps } from "next";
+import NextLink from "next/link";
+import { signIn, getSession, getProviders } from "next-auth/react";
 import {
   Box,
   Button,
@@ -7,8 +10,8 @@ import {
   Typography,
   Link,
   Chip,
+  Divider,
 } from "@mui/material";
-import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 import { AuthLayout } from "../../components/layout";
 import { validations } from "../../utils";
@@ -23,7 +26,7 @@ type FormData = {
 
 const LoginPage = () => {
   const router = useRouter();
-  const { loginUser } = useContext(AuthContext);
+  //const { loginUser } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -32,19 +35,28 @@ const LoginPage = () => {
 
   const [showError, setShowError] = useState(false);
 
+  const [providers, setProviders] = useState<any>({});
+  useEffect(() => {
+    getProviders().then((prov) => {
+      setProviders(prov);
+    });
+  }, []);
+
   const onLoginUser = async ({ email, password }: FormData) => {
     setShowError(false);
-    const isValidLogin = await loginUser(email, password);
-    if (!isValidLogin) {
-      setShowError(true);
-      setTimeout(() => {
-        setShowError(false);
-      }, 3000);
-      return;
-    }
+    // const isValidLogin = await loginUser(email, password);
+    // if (!isValidLogin) {
+    //   setShowError(true);
+    //   setTimeout(() => {
+    //     setShowError(false);
+    //   }, 3000);
+    //   return;
+    // }
 
-    const destination = router.query.p?.toString() || "/";
-    router.replace(destination);
+    // const destination = router.query.p?.toString() || "/";
+    // router.replace(destination);
+
+    await signIn("credentials", { email, password });
   };
 
   return (
@@ -98,7 +110,8 @@ const LoginPage = () => {
               />
             </Grid>
           </Grid>
-          <Grid item sx={{ my: 4 }} xs={12}>
+
+          <Grid item sx={{ my: 2 }} xs={12}>
             <Button
               type="submit"
               color="secondary"
@@ -108,6 +121,29 @@ const LoginPage = () => {
             >
               Log in
             </Button>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            display="flex"
+            flexDirection="column"
+            justifyContent="end"
+          >
+            {Object.values(providers).map((provider: any) => {
+              if (provider.id === "credentials")
+                return <div key="credentilas"></div>;
+              return (
+                <Button
+                  sx={{ borderRadius: "30px", padding: "7px 0", my: 1 }}
+                  fullWidth
+                  color="primary"
+                  key={provider.id}
+                  onClick={() => signIn(provider.id)}
+                >
+                  {provider.name}
+                </Button>
+              );
+            })}
           </Grid>
           <Grid item xs={12} display="flex" justifyContent="end">
             <NextLink
@@ -126,6 +162,26 @@ const LoginPage = () => {
       </form>
     </AuthLayout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query,
+}) => {
+  const session = await getSession({ req });
+  const { p = "/" } = query;
+  if (session) {
+    return {
+      redirect: {
+        destination: p.toString(),
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default LoginPage;
