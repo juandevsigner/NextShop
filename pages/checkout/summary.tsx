@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ShopLayout } from "../../components/layout/ShopLayout";
 import { useRouter } from "next/router";
 import {
@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   CardContent,
+  Chip,
   Divider,
   Grid,
   Link,
@@ -21,6 +22,8 @@ const SummaryPage = () => {
   const router = useRouter();
   const { shippingAddress, numberOfItems, createOrder } =
     useContext(CartContext);
+  const [isPosting, setIsPosting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (!Cookies.get("firstName")) {
@@ -28,8 +31,17 @@ const SummaryPage = () => {
     }
   }, [router]);
 
-  const onCreateOrder = () => {
-    createOrder();
+  const onCreateOrder = async () => {
+    setIsPosting(true);
+    const { hasError, message } = await createOrder();
+
+    if (hasError) {
+      setIsPosting(false);
+      setErrorMessage(message);
+      return;
+    }
+
+    router.replace(`/orders/${message}`);
   };
   if (!shippingAddress) {
     return <></>;
@@ -82,15 +94,21 @@ const SummaryPage = () => {
                 </NextLink>
               </Box>
               <OrderSummary />
-              <Box sx={{ mt: 3 }}>
+              <Box sx={{ mt: 3 }} display="flex" flexDirection="column">
                 <Button
                   onClick={onCreateOrder}
                   color="secondary"
                   className="circular-btn"
                   fullWidth
+                  disabled={isPosting}
                 >
                   Confirm Order
                 </Button>
+                <Chip
+                  color="error"
+                  label={errorMessage}
+                  sx={{ display: errorMessage ? "flex" : "none", mt: 2 }}
+                />
               </Box>
             </CardContent>
           </Card>

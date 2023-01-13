@@ -4,6 +4,7 @@ import { ICartProduct } from "../../interfaces/cart";
 import { CartContext, cartReducer } from "./";
 import { IOrder, ShippingAddress } from "../../interfaces";
 import nextshopApi from "../../api/nextshopApi";
+import axios from "axios";
 
 export interface CartState {
   isLoaded: boolean;
@@ -156,7 +157,10 @@ export const CartProvider: FC<Props> = ({ children }) => {
     dispatch({ type: "[Cart] - Update Address", payload: address });
   };
 
-  const createOrder = async () => {
+  const createOrder = async (): Promise<{
+    hasError: boolean;
+    message: string;
+  }> => {
     if (!state.shippingAddress) {
       throw new Error("Dont have a shipping address");
     }
@@ -175,10 +179,23 @@ export const CartProvider: FC<Props> = ({ children }) => {
     };
 
     try {
-      const { data } = await nextshopApi.post("/orders", body);
-      console.log({ data });
+      const { data } = await nextshopApi.post<IOrder>("/orders", body);
+      dispatch({ type: "[Cart] - Order Complete" });
+      return {
+        hasError: false,
+        message: data._id!,
+      };
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        return {
+          hasError: true,
+          message: error.response?.data.message,
+        };
+      }
+      return {
+        hasError: true,
+        message: "Error: Please speak with your dev",
+      };
     }
   };
 
