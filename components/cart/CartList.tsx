@@ -11,13 +11,14 @@ import {
 } from "@mui/material";
 import { ItemCounter } from "../ui";
 import { CartContext } from "../../context";
-import { ICartProduct } from "../../interfaces";
+import { ICartProduct, IOrderItem } from "../../interfaces";
 
 interface Props {
   edit?: boolean;
+  products?: any;
 }
 
-export const CartList: FC<Props> = ({ edit = false }) => {
+export const CartList: FC<Props> = ({ edit = false, products }) => {
   const { cart, updateCartQuantity, removeCartProduct } =
     useContext(CartContext);
 
@@ -29,13 +30,15 @@ export const CartList: FC<Props> = ({ edit = false }) => {
     updateCartQuantity(product);
   };
 
+  const productToShow = products ? products : cart;
+
   return (
     <>
-      {cart.map((product) => (
+      {productToShow.map((product: any) => (
         <Grid
           container
           spacing={2}
-          key={product.slug + product.sizes}
+          key={product.slug + product.sizes + Math.random()}
           sx={{ mb: 1 }}
         >
           <Grid item xs={3}>

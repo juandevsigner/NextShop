@@ -27,53 +27,62 @@ interface Props {
 
 const OrderPage: NextPage<Props> = ({ order }) => {
   console.log(order);
+  const { _id, isPaid, numberOfItems, shippingAddress } = order;
   return (
-    <ShopLayout title="Order Resum 12354" pageDescription="Order Resum">
-      <Typography variant="h1" component="h1">
-        Order: 1234as
+    <ShopLayout title="Order Resum" pageDescription="Order Resum">
+      <Typography variant="h2" component="h2">
+        Order: {_id}
       </Typography>
-      <Chip
-        sx={{ my: 2 }}
-        label="Payment Pending"
-        variant="outlined"
-        color="error"
-        icon={<CreditCardOffOutlined />}
-      />
-      <Chip
-        sx={{ my: 2 }}
-        label="payment Done"
-        variant="outlined"
-        color="success"
-        icon={<CreditScoreOutlined />}
-      />
+
+      {isPaid ? (
+        <Chip
+          sx={{ my: 2 }}
+          label="payment Done"
+          variant="outlined"
+          color="success"
+          icon={<CreditScoreOutlined />}
+        />
+      ) : (
+        <Chip
+          sx={{ my: 2 }}
+          label="Payment Pending"
+          variant="outlined"
+          color="error"
+          icon={<CreditCardOffOutlined />}
+        />
+      )}
+
       <Grid container>
         <Grid item xs={12} sm={7}>
-          <CartList />
+          <CartList products={order.orderItems} />
         </Grid>
         <Grid item xs={12} sm={5}>
           <Card className="summary-card">
             <CardContent>
-              <Typography variant="h2">Resume (3 Items)</Typography>
+              <Typography variant="h2">
+                Resume ({numberOfItems})
+                {numberOfItems! > 1 ? "Products" : "Product"}
+              </Typography>
               <Divider sx={{ my: 1 }} />
               <Box display="fex" justifyContent="space-between">
-                <Typography variant="subtitle1">Adress Destination</Typography>
-                <NextLink href="/checkout/address" passHref legacyBehavior>
-                  <Link underline="always">Edit</Link>
-                </NextLink>
+                <Typography variant="subtitle1">{}</Typography>
               </Box>
-              <Typography>Juan Monsalve</Typography>
-              <Typography>Any Place</Typography>
-              <Typography>12th South</Typography>
-              <Typography>New Zealand</Typography>
-              <Typography>+7 145 126465</Typography>
+              <Typography>
+                {shippingAddress.firstName}
+                {shippingAddress.lastName}
+              </Typography>
+              <Typography>
+                {shippingAddress.address}
+                {shippingAddress.address2 ? shippingAddress.address2 : ""}
+              </Typography>
+              <Typography>
+                {shippingAddress.city} - {shippingAddress.zip}
+              </Typography>
+              <Typography> {shippingAddress.country}</Typography>
+              <Typography>{shippingAddress.phone}</Typography>
 
               <Divider sx={{ my: 1 }} />
 
-              <Box display="fex" justifyContent="end">
-                <NextLink href="/cart" passHref legacyBehavior>
-                  <Link underline="always">Edit</Link>
-                </NextLink>
-              </Box>
               <OrderSummary />
               <Box sx={{ mt: 3 }}>
                 <h2>Pay</h2>
