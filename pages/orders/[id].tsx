@@ -26,33 +26,15 @@ interface Props {
 }
 
 const OrderPage: NextPage<Props> = ({ order }) => {
-  console.log(order);
-  const { _id, isPaid, numberOfItems, shippingAddress } = order;
+  const { _id, isPaid, numberOfItems, shippingAddress, total, subTotal, tax } =
+    order;
   return (
     <ShopLayout title="Order Resum" pageDescription="Order Resum">
-      <Typography variant="h2" component="h2">
+      <Typography variant="h2" sx={{ mb: 2 }} component="h2">
         Order: {_id}
       </Typography>
 
-      {isPaid ? (
-        <Chip
-          sx={{ my: 2 }}
-          label="payment Done"
-          variant="outlined"
-          color="success"
-          icon={<CreditScoreOutlined />}
-        />
-      ) : (
-        <Chip
-          sx={{ my: 2 }}
-          label="Payment Pending"
-          variant="outlined"
-          color="error"
-          icon={<CreditCardOffOutlined />}
-        />
-      )}
-
-      <Grid container>
+      <Grid container className="fadeIn">
         <Grid item xs={12} sm={7}>
           <CartList products={order.orderItems} />
         </Grid>
@@ -83,16 +65,27 @@ const OrderPage: NextPage<Props> = ({ order }) => {
 
               <Divider sx={{ my: 1 }} />
 
-              <OrderSummary />
-              <Box sx={{ mt: 3 }}>
-                <h2>Pay</h2>
-                <Chip
-                  sx={{ my: 2 }}
-                  label="payment Done"
-                  variant="outlined"
-                  color="success"
-                  icon={<CreditScoreOutlined />}
-                />
+              <OrderSummary
+                orderValues={{ numberOfItems, subTotal, total, tax }}
+              />
+              <Box sx={{ mt: 3 }} display="flex" flexDirection="column">
+                {isPaid ? (
+                  <Chip
+                    sx={{ my: 2 }}
+                    label="payment Done"
+                    variant="outlined"
+                    color="success"
+                    icon={<CreditScoreOutlined />}
+                  />
+                ) : (
+                  <Chip
+                    sx={{ my: 2 }}
+                    label="Payment Pending"
+                    variant="outlined"
+                    color="error"
+                    icon={<CreditCardOffOutlined />}
+                  />
+                )}
               </Box>
             </CardContent>
           </Card>

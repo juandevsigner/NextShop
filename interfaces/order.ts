@@ -13,6 +13,7 @@ export interface IOrder {
   total: number;
   isPaid: boolean;
   paidAt?: string;
+  createdAt?: string;
 }
 
 export interface IOrderItem {

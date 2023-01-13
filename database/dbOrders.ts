@@ -4,7 +4,7 @@ import { IOrder } from "../interfaces";
 import { Order } from "../models";
 
 export const getOrderById = async (id: string): Promise<IOrder | null> => {
-  if (!isValidObjectId) {
+  if (!isValidObjectId(id)) {
     return null;
   }
 
@@ -16,6 +16,18 @@ export const getOrderById = async (id: string): Promise<IOrder | null> => {
   if (!order) {
     return null;
   }
+
+  return JSON.parse(JSON.stringify(order));
+};
+
+export const getOrdersByUser = async (userId: string): Promise<IOrder[]> => {
+  if (!isValidObjectId(userId)) {
+    return [];
+  }
+
+  await db.connect();
+  const order = await Order.find({ user: userId }).lean();
+  await db.disconnect();
 
   return JSON.parse(JSON.stringify(order));
 };

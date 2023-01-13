@@ -1,19 +1,33 @@
 import { Divider, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { FC } from "react";
 import { useContext } from "react";
 import { CartContext } from "../../context";
 import { currency } from "../../utils";
 
-export const OrderSummary = () => {
+interface Props {
+  orderValues?: {
+    numberOfItems: number | undefined;
+    subTotal: number;
+    total: number;
+    tax: number;
+  };
+}
+
+export const OrderSummary: FC<Props> = ({ orderValues }) => {
   const { numberOfItems, subTotal, total, tax } = useContext(CartContext);
+  const summaryValues = orderValues
+    ? orderValues
+    : { numberOfItems, subTotal, total, tax };
+
   return (
     <Grid container>
       <Grid item xs={6}>
-        <Typography>No. Products {numberOfItems}</Typography>
+        <Typography>No. Products {summaryValues.numberOfItems}</Typography>
       </Grid>
       <Grid item display="flex" justifyContent="end" xs={6}>
         <Typography>
-          {numberOfItems} {numberOfItems > 1 ? "Prodcuts" : "Product"}
+          {summaryValues.numberOfItems!}{" "}
+          {summaryValues.numberOfItems! > 1 ? "Prodcuts" : "Product"}
         </Typography>
       </Grid>
 
@@ -21,7 +35,7 @@ export const OrderSummary = () => {
         <Typography>Subtotal:</Typography>
       </Grid>
       <Grid item display="flex" justifyContent="end" xs={6}>
-        <Typography>{currency.format(subTotal)}</Typography>
+        <Typography>{currency.format(summaryValues.subTotal)}</Typography>
       </Grid>
 
       <Grid item xs={6}>
@@ -30,7 +44,7 @@ export const OrderSummary = () => {
         </Typography>
       </Grid>
       <Grid item display="flex" justifyContent="end" xs={6}>
-        <Typography>{currency.format(tax)}</Typography>
+        <Typography>{currency.format(summaryValues.tax)}</Typography>
       </Grid>
       <Divider sx={{ my: 1, width: "100%" }} />
       <Grid item xs={6}>
@@ -38,7 +52,7 @@ export const OrderSummary = () => {
       </Grid>
       <Grid item display="flex" justifyContent="end" xs={6}>
         <Typography variant="subtitle1">
-          <strong> {currency.format(total)}</strong>
+          <strong> {currency.format(summaryValues.total)}</strong>
         </Typography>
       </Grid>
     </Grid>
