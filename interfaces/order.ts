@@ -1,3 +1,4 @@
+import { ISizes } from "./products";
 import { IUser } from "./user";
 
 export interface IOrder {
@@ -11,17 +12,18 @@ export interface IOrder {
   tax: number;
   total: number;
   isPaid: boolean;
-  paidAt: string;
+  paidAt?: string;
 }
 
 export interface IOrderItem {
   _id: string;
   title: string;
-  size: string;
+  size: ISizes;
   quantity: number;
   slug: string;
   image: string;
   price: number;
+  gender: string;
 }
 
 export interface ShippingAddress {
