@@ -22,8 +22,7 @@ export const AdminLayout: FC<Props> = ({ title, subTitle, icon, children }) => {
       >
         <Box display="flex" flexDirection="column">
           <Typography variant="h1" component="h1">
-            {icon}
-            {title}
+            {icon} <span style={{ marginLeft: 5 }}>{title}</span>
           </Typography>
 
           <Typography variant="subtitle1" sx={{ mb: 1 }}>
