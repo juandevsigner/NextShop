@@ -2,7 +2,7 @@ import React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import NextLink from "next/link";
 import { Typography, Grid, Chip, Link } from "@mui/material";
-import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid/models";
+import { GridColDef } from "@mui/x-data-grid/models";
 import { DataGrid } from "@mui/x-data-grid";
 import { ShopLayout } from "../../components/layout";
 import { getSession } from "next-auth/react";
