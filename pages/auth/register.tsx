@@ -63,7 +63,7 @@ const RegisterPage = () => {
               <Typography variant="h1" component="h1">
                 Create Account
               </Typography>
-              <Chip
+              {/* <Chip
                 color="error"
                 sx={{
                   width: "100%",
@@ -73,7 +73,7 @@ const RegisterPage = () => {
                 icon={<ErrorOutline />}
                 label={errorMessage}
                 className="fadeIn"
-              />
+              /> */}
             </Grid>
             <Grid item xs={12}>
               <TextField

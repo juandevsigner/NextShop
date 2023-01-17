@@ -69,7 +69,7 @@ const LoginPage = () => {
                 Log in
               </Typography>
 
-              <Chip
+              {/* <Chip
                 color="error"
                 sx={{
                   width: "100%",
@@ -79,7 +79,7 @@ const LoginPage = () => {
                 icon={<ErrorOutline />}
                 label="The credentials are not valid"
                 className="fadeIn"
-              />
+              /> */}
             </Grid>
 
             <Grid item xs={12}>
