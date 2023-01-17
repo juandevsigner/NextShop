@@ -21,7 +21,7 @@ import {
 import { CartList, OrderSummary } from "../../components/cart";
 import { dbOrders } from "../../database";
 import { IOrder } from "../../interfaces";
-import nextshopApi from "../../api/nextshopApi";
+import nextshopApi from "../../axiosApi/nextshopApi";
 
 export type OrderResponseBody = {
   id: string;

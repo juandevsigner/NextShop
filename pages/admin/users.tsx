@@ -6,7 +6,7 @@ import { Grid, MenuItem, Select } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { AdminLayout } from "../../components/layout/AdminLayout";
 import { IUser } from "../../interfaces";
-import nextshopApi from "../../api/nextshopApi";
+import nextshopApi from "../../axiosApi/nextshopApi";
 
 const UsersPage = () => {
   const { data, error } = useSWR<IUser[]>("/api/admin/users");

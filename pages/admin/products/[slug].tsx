@@ -31,7 +31,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { nextshopApi } from "../../../api";
+import { nextshopApi } from "../../../axiosApi";
 import { Product } from "../../../models";
 
 const validTypes = ["shirts", "pants", "hoodies", "hats"];

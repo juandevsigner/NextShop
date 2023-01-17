@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import { FC, useEffect, useReducer } from "react";
 import { useSession, signOut } from "next-auth/react";
 import axios from "axios";
-import { nextshopApi } from "../../api";
+import { nextshopApi } from "../../axiosApi";
 import { IUser } from "../../interfaces";
 import { AuthContext, authReducer } from "./";
 import { useRouter } from "next/router";

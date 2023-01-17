@@ -3,7 +3,7 @@ import Cookie from "js-cookie";
 import { ICartProduct } from "../../interfaces/cart";
 import { CartContext, cartReducer } from "./";
 import { IOrder, ShippingAddress } from "../../interfaces";
-import nextshopApi from "../../api/nextshopApi";
+import nextshopApi from "../../axiosApi/nextshopApi";
 import axios from "axios";
 
 export interface CartState {
