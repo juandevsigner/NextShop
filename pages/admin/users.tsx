@@ -30,11 +30,10 @@ const UsersPage = () => {
     setUsers(updateUsers);
 
     try {
-      const { data } = await nextshopApi.put("/admin/users", {
+      await nextshopApi.put("/admin/users", {
         userId,
         role: newRole,
       });
-      console.log(data);
     } catch (error) {
       console.log("Role could not be updated");
       setUsers(previousUser);
